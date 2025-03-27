@@ -1,0 +1,27 @@
+
+# List recipe
+help:
+  just --list
+
+# Find and preview
+find-n-preview:
+  fzf --preview "bat --color=always {}"
+  # Useful env var
+  # export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
+
+# Show outdated packages
+brew-outdate: brew-update
+  brew outdated
+  brew outdated --cask --greedy
+
+# Update brew repos
+brew-update:
+  brew update
+
+# Upgrade brew packages
+brew-upgrade: brew-update
+  sudo brew services stop batt
+  brew upgrade
+  brew upgrade --cask --greedy
+  sudo brew services start batt
+
