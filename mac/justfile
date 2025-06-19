@@ -10,7 +10,7 @@ find-n-preview:
   # export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
 
 # Show outdated packages
-brew-outdate: brew-update
+brew-list-outdated: brew-update
   brew outdated
   brew outdated --cask --greedy
 
