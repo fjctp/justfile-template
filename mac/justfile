@@ -10,7 +10,7 @@ find-n-preview:
   # export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}'"
 
 # Show outdated packages
-brew-outdate: brew-update
+brew-list-outdated: brew-update
   brew outdated
   brew outdated --cask --greedy
 
@@ -20,8 +20,15 @@ brew-update:
 
 # Upgrade brew packages
 brew-upgrade: brew-update
-  sudo brew services stop batt
+  # Adding `-` before a command ignores exit code 0.
+  # `grep` returns 0 if `batt` is not found in outdated package list.
+  -just brew-list-outdated | grep batt && sudo brew services stop batt
   brew upgrade
   brew upgrade --cask --greedy
-  sudo brew services start batt
+  -just brew-list-outdated | grep batt && sudo brew services start batt
+
+# Fix brew permission issue
+brew-fix-permission:
+  sudo chown -R ${whoami} ${brew --prefix}
+  sudo chown -R ${whoami} ${HOME}/Library/Caches/Homebrew/bootsnap
 
