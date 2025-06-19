@@ -27,3 +27,8 @@ brew-upgrade: brew-update
   brew upgrade --cask --greedy
   -just brew-list-outdated | grep batt && sudo brew services start batt
 
+# Fix brew permission issue
+brew-fix-permission:
+  sudo chown -R ${whoami} ${brew --prefix}
+  sudo chown -R ${whoami} ${HOME}/Library/Caches/Homebrew/bootsnap
+
